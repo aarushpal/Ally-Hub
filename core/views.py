@@ -11,7 +11,13 @@ import random
 @login_required(login_url='signin')
 def index(request):
     user_object = User.objects.get(username=request.user.username)
-    user_profile = Profile.objects.get(user=user_object)
+    # user_profile = Profile.objects.get(user=user_object)
+
+    try:
+        user_profile = Profile.objects.get(user=user_object)
+    except Profile.DoesNotExist:
+        
+        return redirect('signin')
 
     user_following_list = []
     feed = []
